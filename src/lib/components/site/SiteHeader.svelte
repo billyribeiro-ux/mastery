@@ -67,14 +67,21 @@
 		}
 	}
 
+	function closeMobileMenu() {
+		mobileMenuOpen = false;
+		openMobileGroup = null;
+	}
+
 	function toggleMobileGroup(label: string) {
 		openMobileGroup = openMobileGroup === label ? null : label;
 	}
 </script>
 
+<svelte:body class:mobile-menu-open={mobileMenuOpen} />
+
 <header class="site-header">
 	<div class="header-shell">
-		<a class="brand" href={resolve('/')} aria-label="Revolution Trading Pros home">
+		<a class="brand" href={resolve('/')} aria-label="Revolution Trading Pros home" onclick={closeMobileMenu}>
 			<img
 				class="brand-logo"
 				src="/brand/revolution-trading-pros-logo.png"
@@ -159,7 +166,7 @@
 								<ul class="mobile-submenu">
 									{#each item.children as child (child.label)}
 										<li>
-											<a class="mobile-submenu-link" href={resolve(child.href)}>
+											<a class="mobile-submenu-link" href={resolve(child.href)} onclick={closeMobileMenu}>
 												{child.label}
 											</a>
 										</li>
@@ -167,7 +174,7 @@
 								</ul>
 							{/if}
 						{:else}
-							<a class="mobile-link" href={resolve(item.href ?? '/')}>
+							<a class="mobile-link" href={resolve(item.href ?? '/')} onclick={closeMobileMenu}>
 								{item.label}
 							</a>
 						{/if}
@@ -175,7 +182,7 @@
 				{/each}
 
 				<li class="mobile-login-row">
-					<a class="login-button mobile-login" href={resolve('/')}>Login</a>
+					<a class="login-button mobile-login" href={resolve('/')} onclick={closeMobileMenu}>Login</a>
 				</li>
 			</ul>
 		</nav>
@@ -188,6 +195,10 @@
 	 * src/lib/styles/tokens.css. This component uses `min-width` only,
 	 * rem only, mobile-first. Tier ladder used here: sm, md, lg.
 	 */
+	:global(body.mobile-menu-open) {
+		overflow: hidden;
+	}
+
 	.site-header {
 		--header-bg: #121a2f;
 		--header-surface: #1a2440;
@@ -285,6 +296,9 @@
 	.mobile-nav {
 		border-top: 1px solid var(--header-border);
 		background: rgba(13, 20, 37, 0.98);
+		max-height: calc(100dvh - 5rem);
+		overflow-y: auto;
+		overscroll-behavior: contain;
 	}
 
 	.mobile-list {
@@ -393,6 +407,7 @@
 	.desktop-list {
 		list-style: none;
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
 		gap: 0.25rem;
@@ -463,6 +478,11 @@
 			visibility 160ms ease;
 	}
 
+	.desktop-item:nth-last-child(-n+3) .desktop-panel {
+		left: auto;
+		right: 0;
+	}
+
 	.desktop-dropdown:hover .desktop-panel,
 	.desktop-dropdown:focus-within .desktop-panel {
 		opacity: 1;
@@ -528,18 +548,22 @@
 		}
 	}
 
-	/* ─── lg and up (>= 64rem): desktop patterns emerge ────────────────── *
-	 * Flip to 3-column grid, show desktop nav + login, hide burger drawer.
+	/* ─── lg and up (>= 64rem): wider gutters, larger logo ────────────────── *
+	 * Still using mobile drawer nav because of the large number of nav items.
 	 */
 	@media (min-width: 64rem) {
 		.header-shell {
-			grid-template-columns: auto 1fr auto;
 			padding: 1rem var(--layout-gutter-inline-lg);
 			gap: 1.25rem;
 		}
+	}
 
-		.brand-logo {
-			width: min(100%, 20rem);
+	/* ─── xl and up (>= 80rem): desktop patterns emerge ───────────────── *
+	 * Flip to 3-column grid, show desktop nav + login, hide burger drawer.
+	 */
+	@media (min-width: 80rem) {
+		.header-shell {
+			grid-template-columns: auto 1fr auto;
 		}
 
 		.desktop-nav {
@@ -555,17 +579,34 @@
 		.mobile-nav {
 			display: none;
 		}
-	}
 
-	/* ─── xl and up (>= 80rem): standard desktop target ───────────────── */
-	@media (min-width: 80rem) {
+		/* Tighter spacing to fit 8 items at 1280px */
 		.desktop-list {
-			gap: 0.4rem;
+			gap: 0.15rem;
 		}
 
 		.desktop-link,
 		.desktop-trigger {
-			padding: 0.85rem 1.05rem;
+			font-size: 0.9rem;
+			padding: 0.6rem 0.7rem;
+			gap: 0.35rem;
+		}
+	}
+
+	/* ─── xl2 and up (>= 96rem): standard desktop target ───────────────── */
+	@media (min-width: 96rem) {
+		.brand-logo {
+			width: min(100%, 20rem);
+		}
+
+		.desktop-list {
+			gap: 0.25rem;
+		}
+
+		.desktop-link,
+		.desktop-trigger {
+			font-size: 0.95rem;
+			padding: 0.75rem 0.9rem;
 		}
 	}
 
@@ -573,6 +614,16 @@
 	@media (min-width: 120rem) {
 		.header-shell {
 			max-width: var(--layout-max-width-xl);
+		}
+
+		.desktop-list {
+			gap: 0.4rem;
+		}
+
+		.desktop-link,
+		.desktop-trigger {
+			font-size: 1rem;
+			padding: 0.85rem 1.05rem;
 		}
 	}
 </style>
