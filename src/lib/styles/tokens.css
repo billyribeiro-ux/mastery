@@ -1,0 +1,61 @@
+/**
+ * PE7 9-tier breakpoint system — single source of truth.
+ *
+ * Rules (enforced project-wide):
+ *   • Mobile-first. Only use `min-width`.
+ *   • Rem only. Never px inside media queries.
+ *   • Prefer container queries for component-internal responsiveness.
+ *   • Use media queries for page-level layout shifts.
+ *
+ * Tier guidance:
+ *   xs  → sm: stacked layouts, hamburger, drawer nav
+ *   md       : two-column can start
+ *   lg       : desktop patterns emerge
+ *   xl  → xl2: standard desktop target
+ *   xl3 → xl5: ultra-wide — expand dashboards, not prose
+ *
+ * NOTE: CSS `@media` cannot read `var(...)`, so these tokens are the canonical
+ * values and the media-query ladder literally uses the same rem numbers.
+ * Consume tokens via `var(--bp-*)` in container queries, JS (matchMedia),
+ * max-widths, clamp() fluid sizing, etc.
+ */
+:root {
+	/* ─── Breakpoint tokens (rem) ──────────────────────────────────────── */
+	--bp-xs: 20rem; /* 320px */
+	--bp-sm: 30rem; /* 480px */
+	--bp-md: 48rem; /* 768px */
+	--bp-lg: 64rem; /* 1024px */
+	--bp-xl: 80rem; /* 1280px */
+	--bp-xl2: 96rem; /* 1536px */
+	--bp-xl3: 120rem; /* 1920px */
+	--bp-xl4: 160rem; /* 2560px */
+	--bp-xl5: 240rem; /* 3840px */
+
+	/* ─── Container-query sizes (mirrors breakpoints) ──────────────────── */
+	--cq-xs: 20rem;
+	--cq-sm: 30rem;
+	--cq-md: 48rem;
+	--cq-lg: 64rem;
+	--cq-xl: 80rem;
+
+	/* ─── Layout constants ─────────────────────────────────────────────── */
+	--layout-max-width: 90rem; /* 1440px — standard content cap */
+	--layout-max-width-xl: 120rem; /* xl3 tier — ultra-wide dashboards */
+	--layout-gutter-inline: 1rem;
+	--layout-gutter-inline-md: 1.5rem;
+	--layout-gutter-inline-lg: 2rem;
+}
+
+/**
+ * Canonical media-query ladder — copy/paste into components as needed.
+ * These are the ONLY breakpoints allowed. No ad-hoc values.
+ *
+ * @media (min-width: 30rem)  { /* sm  and up *\/ }
+ * @media (min-width: 48rem)  { /* md  and up *\/ }
+ * @media (min-width: 64rem)  { /* lg  and up *\/ }
+ * @media (min-width: 80rem)  { /* xl  and up *\/ }
+ * @media (min-width: 96rem)  { /* xl2 and up *\/ }
+ * @media (min-width: 120rem) { /* xl3 and up *\/ }
+ * @media (min-width: 160rem) { /* xl4 and up *\/ }
+ * @media (min-width: 240rem) { /* xl5 and up *\/ }
+ */
