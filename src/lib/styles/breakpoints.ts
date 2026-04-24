@@ -1,29 +1,13 @@
+import { BREAKPOINTS, mqUp, type BreakpointName } from './tokens';
+
 /**
- * PE7 9-tier breakpoint system — JS/TS mirror of `tokens.css`.
+ * Stable breakpoint API for components and tests.
  *
- * Use this for `window.matchMedia(...)`, JS-driven layout switches, and tests.
- * DO NOT hardcode breakpoint numbers anywhere else.
- *
- * Rules:
- *   • Mobile-first. Only use `min-width`.
- *   • Rem only. Never px in media queries.
- *   • Prefer container queries for component-internal responsiveness.
- *   • Use media queries for page-level layout shifts.
+ * The canonical values live in `tokens.css` and `tokens.ts`.
+ * This file remains as a small compatibility layer for call sites.
  */
 
-export const BP = {
-	xs: '20rem',
-	sm: '30rem',
-	md: '48rem',
-	lg: '64rem',
-	xl: '80rem',
-	xl2: '96rem',
-	xl3: '120rem',
-	xl4: '160rem',
-	xl5: '240rem'
-} as const satisfies Record<BreakpointName, `${number}rem`>;
-
-export type BreakpointName = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xl2' | 'xl3' | 'xl4' | 'xl5';
+export const BP = BREAKPOINTS;
 
 /**
  * Build a canonical `min-width` media-query string for a given tier.
@@ -32,7 +16,7 @@ export type BreakpointName = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xl2' | 'xl3' | 
  *   if (window.matchMedia(minWidth('lg')).matches) { ... }
  */
 export function minWidth(tier: BreakpointName): string {
-	return `(min-width: ${BP[tier]})`;
+	return mqUp(tier);
 }
 
 /**

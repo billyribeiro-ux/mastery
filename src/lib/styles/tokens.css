@@ -1,54 +1,114 @@
 /**
- * PE7 9-tier breakpoint system — single source of truth.
+ * Shared design tokens for Svelte 5 + SvelteKit.
  *
- * Rules (enforced project-wide):
- *   • Mobile-first. Only use `min-width`.
- *   • Rem only. Never px inside media queries.
- *   • Prefer container queries for component-internal responsiveness.
- *   • Use media queries for page-level layout shifts.
+ * Usage:
+ *   • CSS / Svelte component styles → `var(--token-name)`
+ *   • TS / JS → import the mirrors from `src/lib/styles/tokens.ts`
  *
- * Tier guidance:
- *   xs  → sm: stacked layouts, hamburger, drawer nav
- *   md       : two-column can start
- *   lg       : desktop patterns emerge
- *   xl  → xl2: standard desktop target
- *   xl3 → xl5: ultra-wide — expand dashboards, not prose
- *
- * NOTE: CSS `@media` cannot read `var(...)`, so these tokens are the canonical
- * values and the media-query ladder literally uses the same rem numbers.
- * Consume tokens via `var(--bp-*)` in container queries, JS (matchMedia),
- * max-widths, clamp() fluid sizing, etc.
+ * Rules:
+ *   • Mobile-first. Use `min-width` only.
+ *   • Rem only in media queries.
+ *   • Keep semantic tokens global so component CSS stays thin.
  */
 :root {
-	/* ─── Breakpoint tokens (rem) ──────────────────────────────────────── */
-	--bp-xs: 20rem; /* 320px */
-	--bp-sm: 30rem; /* 480px */
-	--bp-md: 48rem; /* 768px */
-	--bp-lg: 64rem; /* 1024px */
-	--bp-xl: 80rem; /* 1280px */
-	--bp-xl2: 96rem; /* 1536px */
-	--bp-xl3: 120rem; /* 1920px */
-	--bp-xl4: 160rem; /* 2560px */
-	--bp-xl5: 240rem; /* 3840px */
+	color-scheme: dark;
 
-	/* ─── Container-query sizes (mirrors breakpoints) ──────────────────── */
+	/* ─── Breakpoints (canonical values) ──────────────────────────────── */
+	--bp-xs: 20rem;
+	--bp-sm: 30rem;
+	--bp-md: 48rem;
+	--bp-lg: 64rem;
+	--bp-xl: 80rem;
+	--bp-xl2: 96rem;
+	--bp-xl3: 120rem;
+	--bp-xl4: 160rem;
+	--bp-xl5: 240rem;
+
+	/* ─── Container query mirrors ─────────────────────────────────────── */
 	--cq-xs: 20rem;
 	--cq-sm: 30rem;
 	--cq-md: 48rem;
 	--cq-lg: 64rem;
 	--cq-xl: 80rem;
 
-	/* ─── Layout constants ─────────────────────────────────────────────── */
-	--layout-max-width: 90rem; /* 1440px — standard content cap */
-	--layout-max-width-xl: 120rem; /* xl3 tier — ultra-wide dashboards */
+	/* ─── Layout ──────────────────────────────────────────────────────── */
+	--layout-max-width: 90rem;
+	--layout-max-width-xl: 120rem;
 	--layout-gutter-inline: 1rem;
 	--layout-gutter-inline-md: 1.5rem;
 	--layout-gutter-inline-lg: 2rem;
+
+	/* ─── Color ───────────────────────────────────────────────────────── */
+	--color-surface-canvas: #050810;
+	--color-surface-canvas-alt: #0b1120;
+	--color-surface-backdrop: rgba(10, 15, 30, 0.84);
+	--color-surface-backdrop-strong: rgba(9, 14, 28, 0.96);
+	--color-surface-panel: rgba(18, 26, 46, 0.88);
+	--color-surface-panel-strong: rgba(20, 29, 51, 0.98);
+	--color-surface-soft: rgba(255, 255, 255, 0.04);
+	--color-surface-soft-strong: rgba(255, 255, 255, 0.08);
+	--color-border-subtle: rgba(240, 222, 139, 0.18);
+	--color-border-strong: rgba(240, 222, 139, 0.34);
+	--color-border-neutral: rgba(255, 255, 255, 0.1);
+	--color-text-primary: #f8fafc;
+	--color-text-secondary: rgba(248, 250, 252, 0.72);
+	--color-text-tertiary: rgba(248, 250, 252, 0.55);
+	--color-brand-gold: #d7b164;
+	--color-brand-gold-strong: #f0de8b;
+	--color-brand-ink: #101722;
+	--color-focus-ring: #f0de8b;
+
+	/* ─── Typography ──────────────────────────────────────────────────── */
+	--font-family-sans:
+		Inter, 'Avenir Next', 'Segoe UI', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+		sans-serif;
+	--font-family-display:
+		'Avenir Next', Inter, 'Segoe UI', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+		sans-serif;
+	--font-size-step--1: 0.875rem;
+	--font-size-step-0: 1rem;
+	--font-size-step-1: 1.125rem;
+	--font-size-step-2: 1.5rem;
+	--font-size-step-3: 2rem;
+	--tracking-tight: -0.03em;
+	--tracking-eyebrow: 0.16em;
+
+	/* ─── Spacing ─────────────────────────────────────────────────────── */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.25rem;
+	--space-6: 1.5rem;
+	--space-7: 1.75rem;
+	--space-8: 2rem;
+	--space-10: 2.5rem;
+	--space-12: 3rem;
+	--space-16: 4rem;
+
+	/* ─── Radius ──────────────────────────────────────────────────────── */
+	--radius-sm: 0.75rem;
+	--radius-md: 1rem;
+	--radius-lg: 1.25rem;
+	--radius-xl: 1.5rem;
+	--radius-pill: 999rem;
+
+	/* ─── Shadow ──────────────────────────────────────────────────────── */
+	--shadow-soft: 0 1rem 2rem rgba(1, 6, 16, 0.22);
+	--shadow-raised: 0 1.15rem 2.3rem rgba(1, 6, 16, 0.28);
+	--shadow-floating: 0 1.5rem 3rem rgba(1, 6, 16, 0.34);
+	--shadow-brand: 0 0.9rem 1.8rem rgba(215, 177, 100, 0.26);
+
+	/* ─── Motion ──────────────────────────────────────────────────────── */
+	--duration-fast: 180ms;
+	--duration-standard: 220ms;
+	--duration-slow: 320ms;
+	--ease-standard: ease;
+	--ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /**
- * Canonical media-query ladder — copy/paste into components as needed.
- * These are the ONLY breakpoints allowed. No ad-hoc values.
+ * Canonical media-query ladder.
  *
  * @media (min-width: 30rem)  { /* sm  and up *\/ }
  * @media (min-width: 48rem)  { /* md  and up *\/ }
