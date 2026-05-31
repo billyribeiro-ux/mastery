@@ -1,42 +1,80 @@
-# sv
+# Revolution Trading Pros
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Trader performance platform — live trading rooms, premium alert services, mentorship, and
+trader-focused tools. Built with **Svelte 5** and **SvelteKit**, deployed to **Vercel**.
 
-## Creating a project
+## Tech stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Framework:** SvelteKit + Svelte 5 (runes)
+- **Language:** TypeScript (strict)
+- **Tooling:** Vite, Vitest (unit + browser), Playwright (e2e), ESLint, Prettier
+- **Deployment:** `@sveltejs/adapter-vercel`
+- **Package manager:** pnpm
 
-```sh
-# create a new project
-npx sv create my-app
-```
-
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-pnpm dlx sv@0.15.1 create --template minimal --types ts --add prettier eslint vitest="usages:unit,component" playwright sveltekit-adapter="adapter:vercel" mcp="ide:claude-code,vscode+setup:local" --install pnpm ./
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Getting started
 
 ```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+pnpm install
+pnpm dev          # start the dev server
+pnpm dev --open   # …and open it in a browser
 ```
 
-## Building
+## Project structure
 
-To create a production version of your app:
+```text
+src/
+  app.css                     Global resets + token import
+  app.html                    Document shell (theme-color, color-scheme)
+  lib/
+    config/site.ts            Canonical site metadata + SEO defaults
+    components/site/          SiteHeader, Seo
+    styles/                   Design tokens (tokens.css/ts) + breakpoints
+  routes/
+    +layout.svelte            App shell, global SEO wiring
+    +page.svelte / +page.ts   Marketing landing page (prerendered)
+    +error.svelte             Branded error page
+e2e/                          Playwright end-to-end specs
+docs/                         Architecture & component specs
+```
+
+### SEO
+
+Page metadata is centralized. Set site-wide defaults in `src/lib/config/site.ts`, and override
+per route by returning `{ seo }` from a `load` function:
+
+```ts
+// src/routes/some-page/+page.ts
+import type { PageLoad } from './$types';
+
+export const load: PageLoad = () => ({
+	seo: { title: 'Some Page', description: '…' }
+});
+```
+
+The root layout renders a single `<Seo>` from `page.data.seo`, so there is always exactly one
+canonical `<title>` and one set of Open Graph / Twitter tags.
+
+### Design tokens
+
+All colors, spacing, radii, shadows, motion, and the 9-tier breakpoint ladder live in
+`src/lib/styles/tokens.css` (consumed via `var(--token)`) and mirrored in `tokens.ts` for
+TypeScript/`matchMedia`. Styling is mobile-first; media queries use `min-width` in `rem`.
+
+## Scripts
 
 ```sh
-npm run build
+pnpm dev          # dev server
+pnpm build        # production build
+pnpm preview      # preview the production build
+pnpm check        # type-check (svelte-check)
+pnpm lint         # prettier --check + eslint
+pnpm format       # prettier --write
+pnpm test:unit    # vitest (unit + browser)
+pnpm test:e2e     # playwright e2e
+pnpm test         # unit + e2e
 ```
 
-You can preview the production build with `npm run preview`.
+## Deployment
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+The app targets Vercel via `@sveltejs/adapter-vercel`. Push to your connected Vercel project,
+or run `pnpm build` and deploy the generated output.

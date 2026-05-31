@@ -1,10 +1,15 @@
 <script lang="ts">
 	import '../app.css';
 
+	import { page } from '$app/state';
+
+	import Seo from '$lib/components/site/Seo.svelte';
 	import SiteHeader from '$lib/components/site/SiteHeader.svelte';
 
 	let { children } = $props();
 </script>
+
+<Seo {...page.data.seo ?? {}} />
 
 <svelte:head>
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
