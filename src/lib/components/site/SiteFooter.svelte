@@ -44,6 +44,8 @@
 			<ul>
 				{#each socialLinks as social (social.label)}
 					<li>
+						<!-- External social URLs are intentionally not routed through resolve(). -->
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 						<a class="footer-link" href={social.href} target="_blank" rel="noreferrer noopener">
 							{social.label}
 						</a>

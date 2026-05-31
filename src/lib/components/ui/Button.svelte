@@ -35,6 +35,9 @@
 </script>
 
 {#if href}
+	<!-- This presentational primitive receives an already-resolved or external href; -->
+	<!-- navigation correctness is the caller's responsibility (callers use resolve()). -->
+	<!-- eslint-disable svelte/no-navigation-without-resolve -->
 	<a
 		class={['btn', variant, size, fullWidth && 'full', className]}
 		{href}
@@ -48,6 +51,7 @@
 			<span class="arrow" aria-hidden="true">↗</span>
 		{/if}
 	</a>
+	<!-- eslint-enable svelte/no-navigation-without-resolve -->
 {:else}
 	<button
 		class={['btn', variant, size, fullWidth && 'full', className]}
