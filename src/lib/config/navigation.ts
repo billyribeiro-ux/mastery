@@ -24,68 +24,70 @@ export type NavGroup = {
 export const primaryNav: NavGroup[] = [
 	{
 		label: 'Live Trading Rooms',
+		href: '/rooms',
 		description: 'Real-time guidance, execution support, and structured market coverage.',
 		children: [
-			{ label: 'Day Trading Room', href: '/' },
-			{ label: 'Swing Trading Room', href: '/' },
-			{ label: 'Small Accounts Room', href: '/' }
+			{ label: 'Overview', href: '/rooms' },
+			{ label: 'Day Trading Room', href: '/rooms/day-trading' },
+			{ label: 'Swing Trading Room', href: '/rooms/swing-trading' },
+			{ label: 'Small Accounts Room', href: '/rooms/small-accounts' }
 		]
 	},
 	{
 		label: 'Alert Services',
+		href: '/alerts',
 		description: 'High-signal trade ideas designed for discipline, speed, and clarity.',
 		children: [
-			{ label: 'SPX Profit Pulse', href: '/' },
-			{ label: 'Explosive Swings', href: '/' }
+			{ label: 'Overview', href: '/alerts' },
+			{ label: 'SPX Profit Pulse', href: '/alerts/spx-profit-pulse' },
+			{ label: 'Explosive Swings', href: '/alerts/explosive-swings' }
 		]
 	},
 	{
 		label: 'Mentorship',
-		href: '/',
+		href: '/mentorship',
 		description: 'Coaching, accountability, and trader development programs.'
 	},
 	{
 		label: 'Store',
+		href: '/store',
 		description: 'Courses, indicators, scanners, and trader-focused learning assets.',
 		children: [
-			{ label: 'Courses', href: '/' },
-			{ label: 'Indicators', href: '/' },
-			{ label: 'Scanners', href: '/' }
+			{ label: 'All Products', href: '/store' },
+			{ label: 'Courses', href: '/store/courses' },
+			{ label: 'Indicators', href: '/store/indicators' },
+			{ label: 'Scanners', href: '/store/scanners' }
 		]
 	},
 	{
 		label: 'Our Mission',
-		href: '/',
+		href: '/mission',
 		description: 'The principles and purpose driving the Revolution Trading Pros platform.'
 	},
 	{
 		label: 'About',
-		href: '/',
+		href: '/about',
 		description: 'Team, story, and the operating philosophy behind the brand.'
 	},
 	{
 		label: 'Blogs',
-		href: '/',
+		href: '/blog',
 		description: 'Market education, trader psychology, and platform updates.'
 	},
 	{
 		label: 'Resources',
-		description: 'Practical calculators, lists, and utilities for daily decision-making.',
-		children: [
-			{ label: 'Options Calculator', href: '/' },
-			{ label: 'ETF Stocks List', href: '/' },
-			{ label: 'Stock Indexes List', href: '/' }
-		]
+		href: '/resources',
+		description: 'Practical calculators, lists, and utilities for daily decision-making.'
 	}
 ];
 
 /** Primary account actions, shared between header and footer. */
 export const accountNav = {
-	login: { label: 'Member Login', href: '/' satisfies Pathname },
-	join: { label: 'Start Membership', href: '/' satisfies Pathname }
+	login: { label: 'Member Login', href: '/login' satisfies Pathname },
+	join: { label: 'Start Membership', href: '/pricing' satisfies Pathname }
 } as const;
 
-/** Legal / compliance links — surfaced in the footer. */
+/** Legal / compliance links — surfaced in the footer (dedicated routes land in a later phase). */
 export const legalLinks: NavLeaf[] = [
 	{ label: 'Terms of Service', href: '/' },
 	{ label: 'Privacy Policy', href: '/' },
