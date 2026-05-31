@@ -18,7 +18,8 @@ describe('navigation config', () => {
 			'Mentorship',
 			'Our Mission',
 			'About',
-			'Blogs'
+			'Blogs',
+			'Resources'
 		]);
 	});
 
