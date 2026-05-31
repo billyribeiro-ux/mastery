@@ -4,6 +4,7 @@
 	import { page } from '$app/state';
 
 	import Seo from '$lib/components/site/Seo.svelte';
+	import SiteFooter from '$lib/components/site/SiteFooter.svelte';
 	import SiteHeader from '$lib/components/site/SiteHeader.svelte';
 
 	let { children } = $props();
@@ -23,14 +24,19 @@
 	<main class="page-shell">
 		{@render children()}
 	</main>
+
+	<SiteFooter />
 </div>
 
 <style>
 	.app-shell {
+		display: flex;
+		flex-direction: column;
 		min-height: 100vh;
 	}
 
 	.page-shell {
+		flex: 1;
 		width: 100%;
 	}
 </style>

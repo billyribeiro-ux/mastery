@@ -1,81 +1,9 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import type { Pathname } from '$app/types';
 	import { slide } from 'svelte/transition';
 
+	import { accountNav, primaryNav as navItems } from '$lib/config/navigation';
 	import { minWidth } from '$lib/styles/breakpoints';
-
-	type AppPath = Pathname;
-
-	type NavLeaf = {
-		label: string;
-		href: AppPath;
-	};
-
-	type NavGroup = {
-		label: string;
-		href?: AppPath;
-		description?: string;
-		children?: NavLeaf[];
-	};
-
-	const navItems: NavGroup[] = [
-		{
-			label: 'Live Trading Rooms',
-			description: 'Real-time guidance, execution support, and structured market coverage.',
-			children: [
-				{ label: 'Day Trading Room', href: '/' },
-				{ label: 'Swing Trading Room', href: '/' },
-				{ label: 'Small Accounts Room', href: '/' }
-			]
-		},
-		{
-			label: 'Alert Services',
-			description: 'High-signal trade ideas designed for discipline, speed, and clarity.',
-			children: [
-				{ label: 'SPX Profit Pulse', href: '/' },
-				{ label: 'Explosive Swings', href: '/' }
-			]
-		},
-		{
-			label: 'Mentorship',
-			href: '/',
-			description: 'Coaching, accountability, and trader development programs.'
-		},
-		{
-			label: 'Store',
-			description: 'Courses, indicators, scanners, and trader-focused learning assets.',
-			children: [
-				{ label: 'Courses', href: '/' },
-				{ label: 'Indicators', href: '/' },
-				{ label: 'Scanners', href: '/' }
-			]
-		},
-		{
-			label: 'Our Mission',
-			href: '/',
-			description: 'The principles and purpose driving the Revolution Trading Pros platform.'
-		},
-		{
-			label: 'About',
-			href: '/',
-			description: 'Team, story, and the operating philosophy behind the brand.'
-		},
-		{
-			label: 'Blogs',
-			href: '/',
-			description: 'Market education, trader psychology, and platform updates.'
-		},
-		{
-			label: 'Resources',
-			description: 'Practical calculators, lists, and utilities for daily decision-making.',
-			children: [
-				{ label: 'Options Calculator', href: '/' },
-				{ label: 'ETF Stocks List', href: '/' },
-				{ label: 'Stock Indexes List', href: '/' }
-			]
-		}
-	];
 
 	let mobileMenuOpen = $state(false);
 	let openMobileGroup: string | null = $state(null);
@@ -265,12 +193,16 @@
 		</nav>
 
 		<div class="header-actions">
-			<a class="utility-link desktop-utility" href={resolve('/')} onclick={closeAllMenus}>
-				Member Login
+			<a
+				class="utility-link desktop-utility"
+				href={resolve(accountNav.login.href)}
+				onclick={closeAllMenus}
+			>
+				{accountNav.login.label}
 			</a>
 
-			<a class="cta-button header-cta" href={resolve('/')} onclick={closeAllMenus}>
-				<span>Start Membership</span>
+			<a class="cta-button header-cta" href={resolve(accountNav.join.href)} onclick={closeAllMenus}>
+				<span>{accountNav.join.label}</span>
 				<span class="cta-arrow" aria-hidden="true">↗</span>
 			</a>
 
@@ -317,12 +249,20 @@
 				</p>
 
 				<div class="mobile-cta-row">
-					<a class="utility-link mobile-utility" href={resolve('/')} onclick={closeAllMenus}>
-						Member Login
+					<a
+						class="utility-link mobile-utility"
+						href={resolve(accountNav.login.href)}
+						onclick={closeAllMenus}
+					>
+						{accountNav.login.label}
 					</a>
 
-					<a class="cta-button mobile-cta" href={resolve('/')} onclick={closeAllMenus}>
-						<span>Start Membership</span>
+					<a
+						class="cta-button mobile-cta"
+						href={resolve(accountNav.join.href)}
+						onclick={closeAllMenus}
+					>
+						<span>{accountNav.join.label}</span>
 						<span class="cta-arrow" aria-hidden="true">↗</span>
 					</a>
 				</div>
