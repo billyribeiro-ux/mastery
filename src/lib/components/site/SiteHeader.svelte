@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import type { Pathname } from '$app/types';
-	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 
 	import { minWidth } from '$lib/styles/breakpoints';
@@ -81,7 +80,6 @@
 	let mobileMenuOpen = $state(false);
 	let openMobileGroup: string | null = $state(null);
 	let openDesktopGroup: string | null = $state(null);
-	let headerElement: HTMLElement | null = null;
 
 	function menuIdFor(label: string) {
 		return `site-header-menu-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
@@ -133,7 +131,7 @@
 		}
 	}
 
-	onMount(() => {
+	function headerBehavior(node: HTMLElement) {
 		const desktopQuery = window.matchMedia(minWidth('lg'));
 
 		const syncHeaderMode = () => {
@@ -146,7 +144,7 @@
 		};
 
 		const handlePointerDown = (event: PointerEvent) => {
-			if (headerElement && !headerElement.contains(event.target as Node)) {
+			if (!node.contains(event.target as Node)) {
 				closeAllMenus();
 			}
 		};
@@ -167,12 +165,12 @@
 			window.removeEventListener('pointerdown', handlePointerDown);
 			window.removeEventListener('keydown', handleKeydown);
 		};
-	});
+	}
 </script>
 
 <svelte:body class:mobile-menu-open={mobileMenuOpen} />
 
-<header bind:this={headerElement} class="site-header">
+<header {@attach headerBehavior} class="site-header">
 	<div class="site-header-glow" aria-hidden="true"></div>
 
 	<div class="header-shell">
