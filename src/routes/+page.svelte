@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 
+	import { Badge, Button, Card, Container, Section } from '$lib/components/ui';
+	import { accountNav } from '$lib/config/navigation';
+
 	type Pillar = {
 		title: string;
 		copy: string;
@@ -38,11 +41,11 @@
 	];
 </script>
 
-<div class="landing">
+<Container>
 	<section class="hero" aria-labelledby="hero-title">
 		<div class="hero-glow" aria-hidden="true"></div>
 
-		<p class="eyebrow">Trader Performance Platform</p>
+		<Badge>Trader Performance Platform</Badge>
 
 		<h1 id="hero-title">
 			Build your trading <span class="accent">operating system</span>.
@@ -54,11 +57,8 @@
 		</p>
 
 		<div class="cta-row">
-			<a class="cta cta-primary" href={resolve('/')}>
-				<span>Start Membership</span>
-				<span class="cta-arrow" aria-hidden="true">↗</span>
-			</a>
-			<a class="cta cta-ghost" href={resolve('/')}>Explore Live Rooms</a>
+			<Button href={resolve(accountNav.join.href)} size="lg" arrow>{accountNav.join.label}</Button>
+			<Button href={resolve('/')} size="lg" variant="ghost">Explore Live Rooms</Button>
 		</div>
 
 		<p class="trust">
@@ -68,58 +68,50 @@
 
 	<section class="stats" aria-label="Platform highlights">
 		{#each stats as stat (stat.label)}
-			<div class="stat">
-				<span class="stat-value">{stat.value}</span>
-				<span class="stat-label">{stat.label}</span>
-			</div>
+			<Card>
+				<div class="stat">
+					<span class="stat-value">{stat.value}</span>
+					<span class="stat-label">{stat.label}</span>
+				</div>
+			</Card>
 		{/each}
 	</section>
+</Container>
 
-	<section class="pillars" aria-labelledby="pillars-title">
-		<h2 id="pillars-title">Everything a serious trader needs, in one platform.</h2>
+<Section eyebrow="Platform" title="Everything a serious trader needs, in one platform.">
+	<ul class="pillar-grid">
+		{#each pillars as pillar (pillar.title)}
+			<Card as="li" interactive>
+				<h3 class="pillar-title">{pillar.title}</h3>
+				<p class="pillar-copy">{pillar.copy}</p>
+			</Card>
+		{/each}
+	</ul>
+</Section>
 
-		<ul class="pillar-grid">
-			{#each pillars as pillar (pillar.title)}
-				<li class="pillar-card">
-					<h3>{pillar.title}</h3>
-					<p>{pillar.copy}</p>
-				</li>
-			{/each}
-		</ul>
-	</section>
-
-	<section class="closing" aria-labelledby="closing-title">
-		<div class="closing-inner">
-			<h2 id="closing-title">Trade with structure, not guesswork.</h2>
-			<p>Join a community built around process, risk discipline, and continuous improvement.</p>
-			<a class="cta cta-primary" href={resolve('/')}>
-				<span>Start Membership</span>
-				<span class="cta-arrow" aria-hidden="true">↗</span>
-			</a>
-		</div>
-	</section>
-</div>
+<Section align="center">
+	<div class="closing">
+		<h2 class="closing-title">Trade with structure, not guesswork.</h2>
+		<p class="closing-copy">
+			Join a community built around process, risk discipline, and continuous improvement.
+		</p>
+		<Button href={resolve(accountNav.join.href)} size="lg" arrow>{accountNav.join.label}</Button>
+	</div>
+</Section>
 
 <style>
-	.landing {
-		max-width: var(--layout-max-width);
-		margin: 0 auto;
-		padding: var(--space-12) var(--layout-gutter-inline) var(--space-16);
-		display: grid;
-		gap: var(--space-16);
-	}
-
 	.hero {
 		position: relative;
 		text-align: center;
 		display: grid;
 		justify-items: center;
 		gap: var(--space-5);
+		padding-block: var(--space-12) var(--space-10);
 	}
 
 	.hero-glow {
 		position: absolute;
-		inset: -30% 0 auto;
+		inset: -20% 0 auto;
 		height: 18rem;
 		margin: 0 auto;
 		max-width: 40rem;
@@ -127,21 +119,6 @@
 		filter: blur(1.5rem);
 		pointer-events: none;
 		z-index: -1;
-	}
-
-	.eyebrow {
-		margin: 0;
-		display: inline-flex;
-		align-items: center;
-		padding: var(--space-2) var(--space-4);
-		border-radius: var(--radius-pill);
-		border: 1px solid var(--color-border-subtle);
-		background: var(--color-surface-soft);
-		font-size: var(--font-size-step--1);
-		font-weight: 700;
-		letter-spacing: var(--tracking-eyebrow);
-		text-transform: uppercase;
-		color: var(--color-brand-gold-strong);
 	}
 
 	h1 {
@@ -177,59 +154,6 @@
 		margin-top: var(--space-2);
 	}
 
-	.cta {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		gap: var(--space-2);
-		padding: var(--space-4) var(--space-6);
-		border-radius: var(--radius-pill);
-		font-weight: 700;
-		text-decoration: none;
-		transition:
-			transform var(--duration-fast) var(--ease-emphasized),
-			box-shadow var(--duration-fast) var(--ease-emphasized),
-			border-color var(--duration-fast) var(--ease-emphasized),
-			background-color var(--duration-fast) var(--ease-emphasized),
-			color var(--duration-fast) var(--ease-emphasized);
-	}
-
-	.cta-primary {
-		color: var(--color-brand-ink);
-		background: linear-gradient(135deg, var(--color-brand-gold), var(--color-brand-gold-strong));
-		box-shadow: var(--shadow-brand);
-	}
-
-	.cta-primary:hover,
-	.cta-primary:focus-visible {
-		transform: translateY(-0.1rem);
-		box-shadow: 0 1.15rem 2.2rem rgba(215, 177, 100, 0.34);
-		outline: none;
-	}
-
-	.cta-ghost {
-		color: var(--color-text-primary);
-		border: 1px solid var(--color-border-neutral);
-		background: var(--color-surface-soft);
-	}
-
-	.cta-ghost:hover,
-	.cta-ghost:focus-visible {
-		transform: translateY(-0.08rem);
-		color: var(--color-brand-gold-strong);
-		border-color: var(--color-border-strong);
-		outline: none;
-	}
-
-	.cta-arrow {
-		transition: transform var(--duration-fast) var(--ease-emphasized);
-	}
-
-	.cta-primary:hover .cta-arrow,
-	.cta-primary:focus-visible .cta-arrow {
-		transform: translate(0.08rem, -0.08rem);
-	}
-
 	.trust {
 		margin: 0;
 		font-size: var(--font-size-step--1);
@@ -240,15 +164,12 @@
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: var(--space-3);
+		padding-bottom: var(--space-8);
 	}
 
 	.stat {
 		display: grid;
 		gap: var(--space-1);
-		padding: var(--space-5);
-		border-radius: var(--radius-lg);
-		border: 1px solid var(--color-border-neutral);
-		background: var(--color-surface-panel);
 		text-align: center;
 	}
 
@@ -265,22 +186,6 @@
 		color: var(--color-text-secondary);
 	}
 
-	.pillars {
-		display: grid;
-		gap: var(--space-8);
-	}
-
-	.pillars h2,
-	.closing h2 {
-		margin: 0;
-		max-width: 22ch;
-		font-family: var(--font-family-display);
-		font-size: clamp(1.6rem, 4vw, 2.5rem);
-		line-height: 1.1;
-		letter-spacing: var(--tracking-tight);
-		color: var(--color-text-primary);
-	}
-
 	.pillar-grid {
 		list-style: none;
 		margin: 0;
@@ -289,38 +194,20 @@
 		gap: var(--space-4);
 	}
 
-	.pillar-card {
-		display: grid;
-		gap: var(--space-3);
-		padding: var(--space-6);
-		border-radius: var(--radius-lg);
-		border: 1px solid var(--color-border-neutral);
-		background: linear-gradient(180deg, var(--color-surface-panel), var(--color-surface-soft));
-		box-shadow: var(--shadow-soft);
-		transition:
-			transform var(--duration-fast) var(--ease-emphasized),
-			border-color var(--duration-fast) var(--ease-emphasized);
-	}
-
-	.pillar-card:hover {
-		transform: translateY(-0.15rem);
-		border-color: var(--color-border-strong);
-	}
-
-	.pillar-card h3 {
-		margin: 0;
+	.pillar-title {
+		margin: 0 0 var(--space-3);
 		font-size: var(--font-size-step-1);
 		font-weight: 700;
 		color: var(--color-brand-gold-strong);
 	}
 
-	.pillar-card p {
+	.pillar-copy {
 		margin: 0;
 		line-height: 1.6;
 		color: var(--color-text-secondary);
 	}
 
-	.closing-inner {
+	.closing {
 		display: grid;
 		justify-items: center;
 		gap: var(--space-5);
@@ -330,10 +217,19 @@
 		background:
 			radial-gradient(circle at top, rgba(240, 222, 139, 0.12), transparent 60%),
 			var(--color-surface-panel-strong);
-		text-align: center;
 	}
 
-	.closing-inner p {
+	.closing-title {
+		margin: 0;
+		max-width: 22ch;
+		font-family: var(--font-family-display);
+		font-size: clamp(1.6rem, 4vw, 2.5rem);
+		line-height: 1.1;
+		letter-spacing: var(--tracking-tight);
+		color: var(--color-text-primary);
+	}
+
+	.closing-copy {
 		margin: 0;
 		max-width: 44ch;
 		line-height: 1.6;
@@ -341,10 +237,6 @@
 	}
 
 	@media (min-width: 48rem) {
-		.landing {
-			padding-inline: var(--layout-gutter-inline-md);
-		}
-
 		.stats {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
@@ -355,20 +247,8 @@
 	}
 
 	@media (min-width: 64rem) {
-		.landing {
-			padding-inline: var(--layout-gutter-inline-lg);
-		}
-
 		.pillar-grid {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.cta,
-		.cta-arrow,
-		.pillar-card {
-			transition-duration: 0ms;
 		}
 	}
 </style>
