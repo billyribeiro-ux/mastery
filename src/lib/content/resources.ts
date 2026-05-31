@@ -17,8 +17,7 @@ export const resourceTools: ResourceTool[] = [
 	{
 		slug: 'options-calculator',
 		name: 'Options Calculator',
-		summary:
-			'Model option pricing, breakevens, and risk/reward before you place a single trade.',
+		summary: 'Model option pricing, breakevens, and risk/reward before you place a single trade.',
 		status: 'coming-soon'
 	},
 	{
